@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cyber Escape Room</title>
+
+    <style>
+        /* ===== Basic Page Styling ===== */
+        body {
+            margin: 0;
+            background-color: black;
+            color: #00ff9f;
+            font-family: Courier New;
+            text-align: center;
+        }
+
+        /* ===== Heading Style ===== */
+        h1 {
+            font-size: 48px;
+            text-shadow: 0 0 12px #00ff9f; /* neon glow effect */
+        }
+
+        /* ===== Blinking Cursor Animation ===== */
+        .cursor {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% {opacity: 1;}
+            50% {opacity: 0;}
+            100% {opacity: 1;}
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            padding: 80px 20px;
+        }
+
+        /* ===== Button Styling ===== */
+        button {
+            background-color: #00ff9f;
+            border: none;
+            padding: 12px 28px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* ===== Content Sections ===== */
+        section {
+            padding: 40px;
+            color: white;
+        }
+
+        /* ===== Cards for Features ===== */
+        .card {
+            background-color: #111;
+            padding: 20px;
+            margin: 10px;
+            display: inline-block;
+            border-radius: 8px;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            margin-top: 40px;
+            padding: 15px;
+            background-color: #050505;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Project Heading -->
+    <h3>Cyber Security Mini Game Project - Landing Page</h3>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>> CYBER ESCAPE ROOM <span class="cursor">|</span></h1>
+        <p>This mini game is based on cyber security puzzles and escape challenges.</p>
+        <button>ENTER GAME</button>
+    </div>
+
+    <!-- Features Section -->
+    <section>
+        <h2>Features</h2>
+        <div class="card">Timer Based Levels</div>
+        <div class="card">Encryption Challenges</div>
+        <div class="card">Logic Based Tasks</div>
+    </section>
+
+    <!-- Game Flow Section -->
+    <section>
+        <h2>Game Flow</h2>
+        <div class="card">Step 1: Enter System</div>
+        <div class="card">Step 2: Solve Puzzles</div>
+        <div class="card">Step 3: Escape Successfully</div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Developed by Anshita Nautiyal | B.Tech CSE (Cyber Security)</p>
+    </footer>
+
+</body>
+</html>
