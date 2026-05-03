@@ -1,0 +1,245 @@
+```html id="finalbossx"
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Final Level - System Override</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background: black;
+            color: #00eaff;
+            font-family: 'Share Tech Mono';
+            margin: 0;
+            transition: 0.3s;
+        }
+
+        /* GRID */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0,234,255,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,234,255,0.06) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+
+        /* SCANLINE */
+        .scanline {
+            position: fixed;
+            width: 100%;
+            height: 2px;
+            background: rgba(0,255,255,0.5);
+            animation: scan 5s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .topbar {
+            border-bottom: 1px solid #00eaff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .title {
+            text-align: center;
+            font-family: Orbitron;
+            font-size: 30px;
+            margin-top: 20px;
+        }
+
+        .container {
+            width: 60%;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .box {
+            border: 2px solid #00eaff;
+            padding: 25px;
+            box-shadow: 0 0 20px #00eaff;
+        }
+
+        input {
+            width: 70%;
+            padding: 12px;
+            margin-top: 20px;
+            background: black;
+            border: 1px solid #00eaff;
+            color: #00eaff;
+            text-align: center;
+        }
+
+        button {
+            padding: 12px 25px;
+            margin-top: 15px;
+            border: 2px solid #00eaff;
+            background: transparent;
+            color: #00eaff;
+            cursor: pointer;
+            font-family: Orbitron;
+        }
+
+        button:hover {
+            background: #00eaff;
+            color: black;
+        }
+
+        .terminal {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 12px;
+            height: 120px;
+            overflow-y: auto;
+        }
+
+        .progress {
+            margin-top: 15px;
+            border: 1px solid #00eaff;
+            height: 20px;
+        }
+
+        .bar {
+            height: 100%;
+            width: 0%;
+            background: #00eaff;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="scanline"></div>
+
+<div class="topbar">
+    <div>FINAL LEVEL: SYSTEM OVERRIDE</div>
+    <div>TIMER: <span id="timer">60</span>s</div>
+</div>
+
+<div class="title">ESCAPE PROTOCOL</div>
+
+<div class="container">
+
+    <div class="box">
+
+        <h3>ENTER MASTER KEY</h3>
+        <p>Combine all previous outputs</p>
+
+        <input type="text" id="answer" placeholder="Enter final key">
+        <button onclick="startVerification()">EXECUTE</button>
+
+        <div class="progress">
+            <div class="bar" id="bar"></div>
+        </div>
+
+        <div class="terminal" id="terminal"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+function log(text){
+    let t = document.getElementById("terminal");
+    t.innerHTML += "> " + text + "<br>";
+    t.scrollTop = t.scrollHeight;
+}
+
+function startVerification(){
+
+    let ans = document.getElementById("answer").value.toLowerCase();
+    let progress = 0;
+
+    document.getElementById("terminal").innerHTML = "";
+    log("Initializing override sequence...");
+
+    function step1(){
+        progress += 25;
+        updateBar(progress);
+        log("Validating key structure...");
+        setTimeout(step2, 600);
+    }
+
+    function step2(){
+        progress += 25;
+        updateBar(progress);
+        log("Decrypting components...");
+        setTimeout(step3, 600);
+    }
+
+    function step3(){
+        progress += 25;
+        updateBar(progress);
+        log("Bypassing security...");
+        setTimeout(step4, 600);
+    }
+
+    function step4(){
+        progress += 25;
+        updateBar(progress);
+
+        if(ans === "cyber-password-root123"){
+            log("ACCESS GRANTED");
+            success();
+        } else {
+            log("ACCESS DENIED");
+            fail();
+        }
+    }
+
+    step1();
+}
+
+function updateBar(val){
+    document.getElementById("bar").style.width = val + "%";
+}
+
+/* SUCCESS */
+function success(){
+
+    // glitch effect
+    document.body.style.background = "#022";
+    setTimeout(()=>document.body.style.background="black",200);
+
+    setTimeout(()=>{
+        window.location.href = "09_game_complete.html";
+    },1200);
+}
+
+/* FAIL */
+function fail(){
+    document.body.style.background = "#200";
+    setTimeout(()=>document.body.style.background="black",200);
+}
+
+/* TIMER */
+let time = 60;
+setInterval(()=>{
+    time--;
+    document.getElementById("timer").innerText = time;
+
+    if(time <= 10){
+        document.getElementById("timer").style.color = "red";
+    }
+
+    if(time <= 0){
+        alert("SYSTEM LOCKED");
+        location.reload();
+    }
+},1000);
+
+</script>
+
+</body>
+</html>
+```
