@@ -1,0 +1,277 @@
+```html id="fullx91"
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cyber Control Panel</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background: black;
+            color: #00eaff;
+            font-family: 'Share Tech Mono';
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* GRID */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0,234,255,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,234,255,0.06) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+        }
+
+        /* GLOW */
+        .glow-bg {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0,234,255,0.15), transparent);
+            filter: blur(80px);
+            animation: moveGlow 10s infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes moveGlow {
+            0% { top: 10%; left: 10%; }
+            50% { top: 60%; left: 70%; }
+            100% { top: 30%; left: 40%; }
+        }
+
+        .topbar {
+            border-bottom: 1px solid #00eaff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        .title {
+            text-align: center;
+            font-family: Orbitron;
+            font-size: 34px;
+            margin-top: 20px;
+            text-shadow: 0 0 15px #00eaff;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #9dfcff;
+        }
+
+        .main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 55vh;
+        }
+
+        .panel {
+            text-align: center;
+        }
+
+        .level-btn {
+            width: 320px;
+            margin: 12px;
+            padding: 14px;
+            border: 2px solid #00eaff;
+            background: transparent;
+            color: #00eaff;
+            font-family: Orbitron;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: 0.3s;
+        }
+
+        .active {
+            opacity: 1;
+            box-shadow: 0 0 20px #00eaff;
+        }
+
+        .level-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .terminal {
+            width: 60%;
+            margin: 20px auto;
+            border: 1px solid #00eaff;
+            padding: 10px;
+            font-size: 12px;
+            height: 100px;
+            overflow-y: auto;
+        }
+
+        .clock {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 12px;
+        }
+
+        /* LOADER */
+        #loader {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: black;
+            color: #00eaff;
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: Orbitron;
+            font-size: 22px;
+            text-shadow: 0 0 10px #00eaff;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="glow-bg"></div>
+
+<!-- LOADER -->
+<div id="loader">
+    <div id="loaderText">INITIALIZING...</div>
+</div>
+
+<div class="topbar">
+    <div>SYSTEM STATUS: <span id="systemStatus">INITIALIZING...</span></div>
+    <div>AGENT: <span id="agent"></span></div>
+    <div>ACCESS LEVEL: CONTROL</div>
+</div>
+
+<div class="title">CYBER CONTROL PANEL</div>
+<div class="status" id="statusText">Running diagnostics...</div>
+
+<div class="main">
+    <div class="panel">
+
+        <button class="level-btn" onclick="openLevel(1)" onmouseover="preview(1)">LEVEL 1 – DECRYPT FILE</button>
+        <button class="level-btn" onclick="openLevel(2)" onmouseover="preview(2)">LEVEL 2 – CRACK PASSWORD</button>
+        <button class="level-btn" onclick="openLevel(3)" onmouseover="preview(3)">LEVEL 3 – TERMINAL ACCESS</button>
+        <button class="level-btn" onclick="openLevel(4)" onmouseover="preview(4)">FINAL ESCAPE</button>
+
+    </div>
+</div>
+
+<div class="terminal" id="terminal"></div>
+<div class="clock" id="clock"></div>
+
+<script>
+
+/* agent */
+let agent = localStorage.getItem("savedUser") || "UNKNOWN";
+document.getElementById("agent").innerText = agent;
+
+/* clock */
+setInterval(()=>{
+    document.getElementById("clock").innerText =
+        "TIME: " + new Date().toLocaleTimeString();
+},1000);
+
+/* terminal */
+function log(text){
+    let t = document.getElementById("terminal");
+    t.innerHTML += "> " + text + "<br>";
+    t.scrollTop = t.scrollHeight;
+}
+
+/* boot */
+let steps = [
+    "Initializing control panel...",
+    "Checking system integrity...",
+    "Loading modules...",
+    "Establishing secure environment...",
+    "System ready."
+];
+
+let i = 0;
+
+function bootSystem(){
+    if(i < steps.length){
+        log(steps[i]);
+        i++;
+        setTimeout(bootSystem, 400);
+    } else {
+        document.getElementById("systemStatus").innerText = "ONLINE";
+        document.getElementById("statusText").innerText = "Select a mission";
+
+        document.querySelectorAll(".level-btn").forEach(btn=>{
+            btn.classList.add("active");
+        });
+    }
+}
+
+bootSystem();
+
+/* hover preview */
+function preview(level){
+
+    let messages = [
+        "",
+        "Decrypt encrypted message using cipher logic.",
+        "Crack password using hash analysis.",
+        "Access system via terminal commands.",
+        "Combine all keys to escape system."
+    ];
+
+    document.getElementById("statusText").innerText = messages[level];
+}
+
+/* flow */
+let unlockedLevel = parseInt(localStorage.getItem("levelUnlocked")) || 1;
+
+/* OPEN LEVEL WITH REAL DELAY */
+function openLevel(level){
+
+    if(level > unlockedLevel){
+        log("Access denied. Complete previous level first.");
+        return;
+    }
+
+    let loader = document.getElementById("loader");
+    loader.style.display = "flex";
+
+    let messages = [
+        "INITIALIZING...",
+        "LOADING MODULES...",
+        "ESTABLISHING CONNECTION...",
+        "ACCESSING LEVEL..."
+    ];
+
+    let j = 0;
+
+    function animate(){
+        if(j < messages.length){
+            document.getElementById("loaderText").innerText = messages[j];
+            j++;
+            setTimeout(animate, 500);
+        } else {
+            if(level===1) location.href="05_level1_cipher.html";
+            if(level===2) location.href="06_level2_password.html";
+            if(level===3) location.href="07_level3_terminal.html";
+            if(level===4) location.href="08_final_escape.html";
+        }
+    }
+
+    animate();
+}
+
+</script>
+
+</body>
+</html>
+```
