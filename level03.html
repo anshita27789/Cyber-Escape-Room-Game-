@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Level 3 - Terminal Access</title>
+
+```
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        background: black;
+        color: #00eaff;
+        font-family: 'Share Tech Mono';
+        margin: 0;
+    }
+
+    /* GRID BACKGROUND */
+    body::before {
+        content: "";
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-image:
+            linear-gradient(rgba(0,234,255,0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,234,255,0.06) 1px, transparent 1px);
+        background-size: 40px 40px;
+        z-index: -1;
+    }
+
+    /* SCANLINE */
+    .scanline {
+        position: fixed;
+        width: 100%;
+        height: 2px;
+        background: rgba(0,255,255,0.6);
+        animation: scan 6s linear infinite;
+    }
+
+    @keyframes scan {
+        0% { top: 0%; }
+        100% { top: 100%; }
+    }
+
+    .topbar {
+        border-bottom: 1px solid #00eaff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .title {
+        text-align: center;
+        font-family: Orbitron;
+        font-size: 26px;
+        margin-top: 10px;
+        text-shadow: 0 0 10px #00eaff;
+    }
+
+    .terminal {
+        width: 80%;
+        margin: 20px auto;
+        border: 2px solid #00eaff;
+        padding: 15px;
+        height: 400px;
+        overflow-y: auto;
+        box-shadow: 0 0 15px #00eaff;
+    }
+
+    .input-box {
+        width: 80%;
+        margin: auto;
+        border: 2px solid #00eaff;
+        padding: 10px;
+        box-shadow: 0 0 15px #00eaff;
+    }
+
+    .input-line {
+        display: flex;
+    }
+
+    input {
+        background: black;
+        border: none;
+        color: #00eaff;
+        outline: none;
+        font-family: 'Share Tech Mono';
+        width: 100%;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="scanline"></div>
+
+<div class="topbar">
+    <div>LEVEL 3: TERMINAL ACCESS</div>
+    <div>TIMER: <span id="timer">120</span>s</div>
+</div>
+
+<div class="title">REMOTE TERMINAL</div>
+
+<div class="terminal" id="terminal">
+    <div>> Connection established...</div>
+    <div>> Type 'help' to begin</div>
+</div>
+
+<div class="input-box">
+    <div class="input-line">
+        <span>> </span>
+        <input type="text" id="commandInput" autofocus onkeydown="handleCommand(event)">
+    </div>
+</div>
+
+<script>
+
+const terminal = document.getElementById("terminal");
+
+function print(text){
+    terminal.innerHTML += "<div>> " + text + "</div>";
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+function handleCommand(e){
+    if(e.key === "Enter"){
+        let cmd = document.getElementById("commandInput").value.toLowerCase();
+        document.getElementById("commandInput").value = "";
+        processCommand(cmd);
+    }
+}
+
+function processCommand(cmd){
+
+    if(cmd === "help"){
+        print("Available commands: ls, cat secret.txt, cat logs.txt, clear, login <password>");
+
+    } else if(cmd === "ls"){
+        print("files: secret.txt, logs.txt");
+
+    } else if(cmd === "cat secret.txt"){
+        print("admin_password = root123");
+
+    } else if(cmd === "cat logs.txt"){
+        print("unauthorized login attempt detected...");
+
+    } else if(cmd === "clear"){
+        terminal.innerHTML = "";
+
+    } else if(cmd === "login root123"){
+        print("ACCESS GRANTED");
+
+        // unlock final level
+        localStorage.setItem("final_unlocked", "true");
+
+        setTimeout(() => {
+            window.location.href = "04_dashboard.html";
+        }, 1500);
+
+    } else {
+        print("command not recognized");
+    }
+}
+
+/* TIMER */
+let time = 120;
+setInterval(() => {
+    time--;
+    document.getElementById("timer").innerText = time;
+
+    if(time <= 10){
+        document.getElementById("timer").style.color = "red";
+    }
+
+    if(time <= 0){
+        alert("TIME UP!");
+        location.reload();
+    }
+}, 1000);
+
+</script>
+
+</body>
+</html>
