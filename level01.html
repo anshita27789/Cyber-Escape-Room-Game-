@@ -1,0 +1,235 @@
+```html id="lvl1cleanpro"
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Level 1 - Cipher Analysis</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background: black;
+            color: #00eaff;
+            font-family: 'Share Tech Mono';
+            margin: 0;
+        }
+
+        /* GRID BACKGROUND */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0,234,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,234,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+
+        .topbar {
+            border-bottom: 1px solid #00eaff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .title {
+            text-align: center;
+            font-family: Orbitron;
+            margin-top: 15px;
+        }
+
+        .container {
+            width: 75%;
+            margin: 20px auto;
+        }
+
+        .box {
+            border: 2px solid #00eaff;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 0 10px #00eaff;
+        }
+
+        input {
+            padding: 10px;
+            width: 60%;
+            background: black;
+            border: 1px solid #00eaff;
+            color: #00eaff;
+        }
+
+        button {
+            padding: 8px 18px;
+            margin: 8px;
+            border: 2px solid #00eaff;
+            background: transparent;
+            color: #00eaff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #00eaff;
+            color: black;
+        }
+
+        .terminal {
+            font-size: 12px;
+            height: 120px;
+            overflow-y: auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            font-size: 12px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <div>LEVEL 1: CIPHER ANALYSIS</div>
+    <div>TIME: <span id="timer">120</span>s</div>
+</div>
+
+<div class="title">DECRYPTION WORKSTATION</div>
+
+<div class="container">
+
+    <div class="box">
+        <h3>Encrypted Input</h3>
+        <p style="font-size:20px;">khoor</p>
+    </div>
+
+    <div class="box">
+        <h3>Analysis Tools</h3>
+        <button onclick="runBruteForce()">Brute Force</button>
+        <button onclick="showFrequency()">Frequency Check</button>
+        <button onclick="giveHint()">Hint</button>
+    </div>
+
+    <div class="box">
+        <h3>Brute Force Output</h3>
+        <div class="grid" id="bruteOutput"></div>
+    </div>
+
+    <div class="box">
+        <h3>Enter Decrypted Text</h3>
+        <input type="text" id="answer" placeholder="Enter answer">
+        <button onclick="checkAnswer()">Submit</button>
+        <p id="result"></p>
+    </div>
+
+    <div class="box terminal" id="terminal"></div>
+
+</div>
+
+<script>
+
+let cipher = "khoor";
+let attempts = 0;
+
+/* terminal */
+function log(text){
+    let t = document.getElementById("terminal");
+    t.innerHTML += "> " + text + "<br>";
+    t.scrollTop = t.scrollHeight;
+}
+
+/* SYSTEM BOOT (instead of loader) */
+setTimeout(()=>log("Loading cipher module..."),300);
+setTimeout(()=>log("Analyzing input..."),800);
+setTimeout(()=>log("Pattern detected: Caesar Cipher"),1200);
+setTimeout(()=>log("System ready"),1500);
+
+/* decode */
+function decode(text, shift){
+    let result = "";
+    for(let i=0;i<text.length;i++){
+        let code = text.charCodeAt(i) - shift;
+        if(code < 97) code += 26;
+        result += String.fromCharCode(code);
+    }
+    return result;
+}
+
+/* brute force */
+function runBruteForce(){
+    let grid = "";
+    for(let i=1;i<=25;i++){
+        grid += "<div>Shift "+i+": "+decode(cipher,i)+"</div>";
+    }
+    document.getElementById("bruteOutput").innerHTML = grid;
+    log("Brute force complete");
+}
+
+/* frequency */
+function showFrequency(){
+    let freq = {};
+    for(let c of cipher){
+        freq[c] = (freq[c] || 0) + 1;
+    }
+    log("Frequency: " + JSON.stringify(freq));
+}
+
+/* hint */
+function giveHint(){
+    log("Hint: Common greeting word");
+}
+
+/* check */
+function checkAnswer(){
+
+    let ans = document.getElementById("answer").value.toLowerCase();
+    let result = document.getElementById("result");
+
+    attempts++;
+
+    if(ans === "hello"){
+
+        result.innerText = "ACCESS GRANTED";
+        result.style.color = "lightgreen";
+
+        log("Decryption successful in " + attempts + " attempts");
+
+        localStorage.setItem("levelUnlocked", 2);
+
+        setTimeout(()=>{
+            window.location.href = "04_dashboard.html";
+        },1000);
+
+    } else {
+
+        result.innerText = "Incorrect";
+        result.style.color = "red";
+
+        log("Attempt " + attempts + " failed");
+
+        if(attempts === 3){
+            log("Hint: shift = 3");
+        }
+    }
+}
+
+/* timer */
+let time = 120;
+setInterval(()=>{
+    time--;
+    document.getElementById("timer").innerText = time;
+
+    if(time <= 0){
+        alert("System Locked!");
+        location.reload();
+    }
+},1000);
+
+</script>
+
+</body>
+</html>
+```
